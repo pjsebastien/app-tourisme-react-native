@@ -7,16 +7,25 @@ import {
     ScrollView,
     Image,
     ImageBackground,
-    Button,
     TouchableOpacity,
     Platform,
     Dimensions,
 } from 'react-native';
-import React from 'react';
+import React, { useEffect } from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Colors from '../constants/Colors';
 
+import { useDispatch, useSelector } from 'react-redux';
+import * as appActions from '../store/actions/App';
+
 const Home = props => {
+    const posts = useSelector(state => state.posts);
+    const dispatch = useDispatch();
+    useEffect(() => {
+        dispatch(appActions.getPosts());
+        console.log(posts[0]);
+    }, []);
+
     return (
         <View style={styles.container}>
             <ScrollView showsVerticalScrollIndicator={false}>
@@ -40,6 +49,7 @@ const Home = props => {
                             </Text>
                         </View>
                     </ImageBackground>
+
                     <TouchableOpacity
                         onPress={() => props.navigation.navigate('tabMap')}
                         activeOpacity={0.8}
@@ -47,78 +57,79 @@ const Home = props => {
                     >
                         <Text style={styles.mapButtonText}>Voir la carte</Text>
                     </TouchableOpacity>
-                    <View style={{ paddingHorizontal: 25 }}>
-                        <View
-                            style={{
-                                flexDirection: 'row',
-                                alignItems: 'center',
-                            }}
-                        >
-                            <Text style={styles.featured}>Les coups de </Text>
-                            <Ionicons
-                                style={{ paddingTop: 15 }}
-                                name="heart"
-                                size={34}
-                                color={Colors.primaryGreen}
-                            />
+                    <View style={{ marginHorizontal: 25 }}>
+                        <View>
+                            <View
+                                style={{
+                                    flexDirection: 'row',
+                                    alignItems: 'center',
+                                }}
+                            >
+                                <Text style={styles.featured}>Les coups de </Text>
+                                <Ionicons
+                                    style={{ paddingTop: 15 }}
+                                    name="heart"
+                                    size={34}
+                                    color={Colors.primaryGreen}
+                                />
+                            </View>
+                            <View style={styles.cards}>
+                                <TouchableOpacity activeOpacity={0.8} style={styles.card}>
+                                    <Image
+                                        source={require('../assets/Pique-nique_creole.jpg')}
+                                        style={styles.imageCard}
+                                    />
+                                    <Text style={styles.cardText}>
+                                        La kaz auberge - Ô'passage
+                                    </Text>
+                                </TouchableOpacity>
+                                <View style={styles.card}>
+                                    <Image
+                                        source={require('../assets/camping-ile-de-la-reunion-mafate.jpg')}
+                                        style={styles.imageCard}
+                                    />
+                                    <Text style={styles.cardText}>
+                                        La kaz auberge - Ô'passage
+                                    </Text>
+                                </View>
+                                <View style={styles.card}>
+                                    <Image
+                                        source={require('../assets/lanouvelle.jpg')}
+                                        style={styles.imageCard}
+                                    />
+                                    <Text style={styles.cardText}>
+                                        La kaz auberge - Ô'passage
+                                    </Text>
+                                </View>
+                                <View style={styles.card}>
+                                    <Image
+                                        source={require('../assets/lanouvelle.jpg')}
+                                        style={styles.imageCard}
+                                    />
+                                    <Text style={styles.cardText}>
+                                        La kaz auberge - Ô'passage
+                                    </Text>
+                                </View>
+                                <View style={styles.card}>
+                                    <Image
+                                        source={require('../assets/lanouvelle.jpg')}
+                                        style={styles.imageCard}
+                                    />
+                                    <Text style={styles.cardText}>
+                                        La kaz auberge - Ô'passage
+                                    </Text>
+                                </View>
+                                <View style={styles.card}>
+                                    <Image
+                                        source={require('../assets/lanouvelle.jpg')}
+                                        style={styles.imageCard}
+                                    />
+                                    <Text style={styles.cardText}>
+                                        La kaz auberge - Ô'passage
+                                    </Text>
+                                </View>
+                            </View>
                         </View>
-                        <View style={styles.cards}>
-                            <TouchableOpacity activeOpacity={0.8} style={styles.card}>
-                                <Image
-                                    source={require('../assets/Pique-nique_creole.jpg')}
-                                    style={styles.imageCard}
-                                />
-                                <Text style={styles.cardText}>
-                                    La kaz auberge - Ô'passage
-                                </Text>
-                            </TouchableOpacity>
-                            <View style={styles.card}>
-                                <Image
-                                    source={require('../assets/camping-ile-de-la-reunion-mafate.jpg')}
-                                    style={styles.imageCard}
-                                />
-                                <Text style={styles.cardText}>
-                                    La kaz auberge - Ô'passage
-                                </Text>
-                            </View>
-                            <View style={styles.card}>
-                                <Image
-                                    source={require('../assets/lanouvelle.jpg')}
-                                    style={styles.imageCard}
-                                />
-                                <Text style={styles.cardText}>
-                                    La kaz auberge - Ô'passage
-                                </Text>
-                            </View>
-                            <View style={styles.card}>
-                                <Image
-                                    source={require('../assets/lanouvelle.jpg')}
-                                    style={styles.imageCard}
-                                />
-                                <Text style={styles.cardText}>
-                                    La kaz auberge - Ô'passage
-                                </Text>
-                            </View>
-                            <View style={styles.card}>
-                                <Image
-                                    source={require('../assets/lanouvelle.jpg')}
-                                    style={styles.imageCard}
-                                />
-                                <Text style={styles.cardText}>
-                                    La kaz auberge - Ô'passage
-                                </Text>
-                            </View>
-                            <View style={styles.card}>
-                                <Image
-                                    source={require('../assets/lanouvelle.jpg')}
-                                    style={styles.imageCard}
-                                />
-                                <Text style={styles.cardText}>
-                                    La kaz auberge - Ô'passage
-                                </Text>
-                            </View>
-                        </View>
-
                         <View style={styles.footerContainer}>
                             <TouchableOpacity
                                 activeOpacity={0.8}
@@ -134,7 +145,8 @@ const Home = props => {
                                     Explorez La Réunion
                                 </Text>
                                 <Text style={styles.footerText}>
-                                    Trouvez le meilleur spot où dormir en plein nature
+                                    Trouvez le meilleur endroit où dormir en pleine nature
+                                    {/* pamis nos {posts.length} spots ! */}
                                 </Text>
                             </View>
                             <Image
@@ -195,7 +207,7 @@ const styles = StyleSheet.create({
         marginHorizontal: 25,
         backgroundColor: Colors.primaryGreenDark,
         borderRadius: 10,
-        width: 150,
+        width: 170,
     },
     mapButtonText: {
         paddingHorizontal: 20,
@@ -268,7 +280,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         position: 'absolute',
         marginTop: 132,
-        marginHorizontal: (Dimensions.get('window').width - 200) / 3,
+        marginHorizontal: (Dimensions.get('window').width - 250) / 2,
         zIndex: 1,
         backgroundColor: Colors.primaryGreenDark,
         borderRadius: 10,
