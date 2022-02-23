@@ -3,6 +3,7 @@ import { View, Text, StyleSheet } from 'react-native';
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { createDrawerNavigator } from '@react-navigation/drawer';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Colors from '../constants/Colors';
 
@@ -12,6 +13,8 @@ import MapScreen from '../screens/Map';
 import PostDetailsScreen from '../screens/PostDetails';
 import PostsScreen from '../screens/Posts';
 import SearchPostsScreen from '../screens/SearchPosts';
+import AboutScreen from '../screens/About.js';
+import CategoryPosts from '../screens/CategoryPosts';
 
 //AppModalsNavigator
 const ModalsNavigator = createStackNavigator();
@@ -32,6 +35,11 @@ export const AppModalsNavigator = () => {
             <ModalsNavigator.Screen
                 name="postDetails"
                 component={PostDetailsScreen}
+                options={{ headerShown: false }}
+            />
+            <ModalsNavigator.Screen
+                name="categoryPosts"
+                component={CategoryPosts}
                 options={{ headerShown: false }}
             />
         </ModalsNavigator.Navigator>
@@ -66,7 +74,7 @@ const AppTabNavigator = () => {
         >
             <TabNavigator.Screen
                 name="tabHome"
-                component={HomeScreen}
+                component={AppDrawerNavigator}
                 options={{ title: 'Accueil', headerShown: false }}
             />
             <TabNavigator.Screen
@@ -105,6 +113,25 @@ const PostsStackNavigator = () => {
                 options={{ headerShown: false }}
             />
         </PostsNavigator.Navigator>
+    );
+};
+
+const DrawerNavigator = createDrawerNavigator();
+
+const AppDrawerNavigator = () => {
+    return (
+        <DrawerNavigator.Navigator>
+            <DrawerNavigator.Screen
+                name="DrawerHome"
+                component={HomeScreen}
+                options={{ headerShown: false }}
+            />
+            <DrawerNavigator.Screen
+                name="DrawerAbout"
+                component={AboutScreen}
+                options={{ headerShown: false }}
+            />
+        </DrawerNavigator.Navigator>
     );
 };
 

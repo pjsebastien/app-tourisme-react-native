@@ -9,10 +9,14 @@ import {
 import React from 'react';
 import Colors from '../constants/Colors';
 
-const PostCard = ({ urlImage, title, category, region }) => {
+const PostCard = ({ urlImage, title, category, region, onPress }) => {
     return (
-        <TouchableOpacity activeOpacity={0.8} style={styles.cardContainer}>
-            <Image style={styles.cardImage} source={urlImage} />
+        <TouchableOpacity
+            activeOpacity={0.8}
+            style={styles.cardContainer}
+            onPress={onPress}
+        >
+            <Image style={styles.cardImage} source={{ uri: urlImage }} />
             <View style={styles.cardTextContainer}>
                 <Text style={styles.cardTitle}>{title}</Text>
                 <View
@@ -34,7 +38,7 @@ export default PostCard;
 const styles = StyleSheet.create({
     cardContainer: {
         backgroundColor: 'white',
-        marginTop: 20,
+        marginVertical: 10,
         height: 120,
         borderRadius: 15,
         flexDirection: 'row',

@@ -19,12 +19,25 @@ import { useDispatch, useSelector } from 'react-redux';
 import * as appActions from '../store/actions/App';
 
 const Home = props => {
-    const posts = useSelector(state => state.posts);
+    const featuredPosts = useSelector(state => state.featuredPosts);
+    const categories = useSelector(state => state.categories);
     const dispatch = useDispatch();
     useEffect(() => {
-        dispatch(appActions.getPosts());
-        console.log(posts[0]);
+        dispatch(appActions.getCategories());
+        dispatch(appActions.getFeaturedPosts());
+        console.log(featuredPosts);
     }, []);
+
+    const fetchSingleFeaturedPost = featuredPost => {
+        props.navigation.navigate('postDetails', {
+            selectedPost: featuredPost,
+        });
+    };
+    const fetchCategoryPosts = category => {
+        props.navigation.navigate('categoryPosts', {
+            selectedCategory: category,
+        });
+    };
 
     return (
         <View style={styles.container}>
@@ -39,10 +52,11 @@ const Home = props => {
                                 name="menu"
                                 size={30}
                                 color={Colors.textColorLight}
+                                onPress={() => props.navigation.toggleDrawer()}
                             />
                         </TouchableOpacity>
                         <View style={styles.heroTexts}>
-                            <Text style={styles.heroProjectName}>Project Name</Text>
+                            <Text style={styles.heroProjectName}>Bivouac 974</Text>
                             <Text style={styles.heroText}>
                                 Découvrez les spots de campings et de bivouac à La Réunion
                                 et ou les trouver sur une carte
@@ -59,6 +73,32 @@ const Home = props => {
                     </TouchableOpacity>
                     <View style={{ marginHorizontal: 25 }}>
                         <View>
+                            <Text style={styles.featured}>Catégories </Text>
+                            <View style={styles.cards}>
+                                {categories.map(category => {
+                                    return (
+                                        <TouchableOpacity
+                                            key={category.id}
+                                            activeOpacity={0.8}
+                                            style={styles.card}
+                                            onPress={() =>
+                                                fetchCategoryPosts(category.name)
+                                            }
+                                        >
+                                            <Image
+                                                source={{
+                                                    uri: category.image.attributes.formats
+                                                        .thumbnail.url,
+                                                }}
+                                                style={styles.imageCard}
+                                            />
+                                            <Text style={styles.cardTextCategory}>
+                                                {category.name}
+                                            </Text>
+                                        </TouchableOpacity>
+                                    );
+                                })}
+                            </View>
                             <View
                                 style={{
                                     flexDirection: 'row',
@@ -74,60 +114,32 @@ const Home = props => {
                                 />
                             </View>
                             <View style={styles.cards}>
-                                <TouchableOpacity activeOpacity={0.8} style={styles.card}>
-                                    <Image
-                                        source={require('../assets/Pique-nique_creole.jpg')}
-                                        style={styles.imageCard}
-                                    />
-                                    <Text style={styles.cardText}>
-                                        La kaz auberge - Ô'passage
-                                    </Text>
-                                </TouchableOpacity>
-                                <View style={styles.card}>
-                                    <Image
-                                        source={require('../assets/camping-ile-de-la-reunion-mafate.jpg')}
-                                        style={styles.imageCard}
-                                    />
-                                    <Text style={styles.cardText}>
-                                        La kaz auberge - Ô'passage
-                                    </Text>
-                                </View>
-                                <View style={styles.card}>
-                                    <Image
-                                        source={require('../assets/lanouvelle.jpg')}
-                                        style={styles.imageCard}
-                                    />
-                                    <Text style={styles.cardText}>
-                                        La kaz auberge - Ô'passage
-                                    </Text>
-                                </View>
-                                <View style={styles.card}>
-                                    <Image
-                                        source={require('../assets/lanouvelle.jpg')}
-                                        style={styles.imageCard}
-                                    />
-                                    <Text style={styles.cardText}>
-                                        La kaz auberge - Ô'passage
-                                    </Text>
-                                </View>
-                                <View style={styles.card}>
-                                    <Image
-                                        source={require('../assets/lanouvelle.jpg')}
-                                        style={styles.imageCard}
-                                    />
-                                    <Text style={styles.cardText}>
-                                        La kaz auberge - Ô'passage
-                                    </Text>
-                                </View>
-                                <View style={styles.card}>
-                                    <Image
-                                        source={require('../assets/lanouvelle.jpg')}
-                                        style={styles.imageCard}
-                                    />
-                                    <Text style={styles.cardText}>
-                                        La kaz auberge - Ô'passage
-                                    </Text>
-                                </View>
+                                {featuredPosts.map(featuredPost => {
+                                    return (
+                                        <TouchableOpacity
+                                            key={featuredPost.id}
+                                            activeOpacity={0.8}
+                                            style={styles.card}
+                                            onPress={() =>
+                                                fetchSingleFeaturedPost(featuredPost)
+                                            }
+                                        >
+                                            <Image
+                                                source={{
+                                                    uri: featuredPost.image.attributes
+                                                        .formats.thumbnail.url,
+                                                }}
+                                                style={styles.imageCard}
+                                            />
+                                            <Text
+                                                style={styles.cardText}
+                                                numberOfLines={3}
+                                            >
+                                                {featuredPost.title}
+                                            </Text>
+                                        </TouchableOpacity>
+                                    );
+                                })}
                             </View>
                         </View>
                         <View style={styles.footerContainer}>
@@ -245,7 +257,14 @@ const styles = StyleSheet.create({
     },
     cardText: {
         color: Colors.textColorDark,
-        fontSize: 14,
+        fontSize: 12,
+        fontWeight: 'bold',
+        marginTop: 4,
+        letterSpacing: 0.5,
+    },
+    cardTextCategory: {
+        color: Colors.textColorDark,
+        fontSize: 18,
         fontWeight: 'bold',
         marginTop: 4,
         letterSpacing: 0.7,
