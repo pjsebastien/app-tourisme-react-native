@@ -21,11 +21,12 @@ import * as appActions from '../store/actions/App';
 const Home = props => {
     const featuredPosts = useSelector(state => state.featuredPosts);
     const categories = useSelector(state => state.categories);
+    const posts = useSelector(state => state.posts);
     const dispatch = useDispatch();
     useEffect(() => {
         dispatch(appActions.getCategories());
         dispatch(appActions.getFeaturedPosts());
-        console.log(featuredPosts);
+        dispatch(appActions.getPosts());
     }, []);
 
     const fetchSingleFeaturedPost = featuredPost => {
@@ -44,7 +45,7 @@ const Home = props => {
             <ScrollView showsVerticalScrollIndicator={false}>
                 <SafeAreaView style={{ flex: 1 }}>
                     <ImageBackground
-                        source={require('../assets/Pique-nique_creole.jpg')}
+                        source={require('../assets/camp-g6fdf47ac1_1280.jpg')}
                         style={styles.imageHero}
                     >
                         <TouchableOpacity activeOpacity={0.8} style={styles.menuIcon}>
@@ -158,7 +159,7 @@ const Home = props => {
                                 </Text>
                                 <Text style={styles.footerText}>
                                     Trouvez le meilleur endroit où dormir en pleine nature
-                                    {/* pamis nos {posts.length} spots ! */}
+                                    pamis nos {posts.length} spots !
                                 </Text>
                             </View>
                             <Image

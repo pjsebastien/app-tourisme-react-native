@@ -4,6 +4,7 @@ export const GET_POSTS = 'GET_POSTS';
 export const GET_CATEGORIES = 'GET_CATEGORIES';
 export const GET_FEATURED_POSTS = 'GET_FEATURED_POSTS';
 export const GET_CATEGORY_POSTS = 'GET_CATEGORY_POSTS';
+export const GET_SIMILAR_POSTS = 'GET_SIMILAR_POSTS';
 
 export const getPosts = () => {
     return dispatch => {
@@ -29,6 +30,7 @@ export const getPosts = () => {
                         lon: queryPrefix.lon,
                         services: queryPrefix.services.data,
                         image: queryPrefix.thumbnail.data,
+                        postImage: queryPrefix.thumbnail.data.attributes.url,
                         category: queryPrefix.category.data.attributes.name,
                         region: queryPrefix.region.data.attributes.name,
                     });
@@ -60,6 +62,7 @@ export const getFeaturedPosts = () => {
                         lon: queryPrefix.lon,
                         services: queryPrefix.services.data,
                         image: queryPrefix.thumbnail.data,
+                        postImage: queryPrefix.thumbnail.data.attributes.url,
                         category: queryPrefix.category.data.attributes.name,
                         region: queryPrefix.region.data.attributes.name,
                     });
@@ -67,6 +70,43 @@ export const getFeaturedPosts = () => {
                 dispatch({
                     type: GET_FEATURED_POSTS,
                     featuredPosts: fetchedFeaturedPosts,
+                });
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    };
+};
+export const getSimilarPosts = (category, region) => {
+    return dispatch => {
+        axios
+            .get(
+                `/posts?populate=*&[filters][category][name][$eq]=${category}&[filters][region][name][$eq]=${region}&pagination[start]=0&pagination[limit]=6`,
+            )
+            .then(response => {
+                const fetchedSimilarPosts = [];
+
+                for (let key in response.data.data) {
+                    const queryPrefix = response.data.data[key].attributes;
+                    fetchedSimilarPosts.push({
+                        id: response.data.data[key].id,
+                        title: queryPrefix.title,
+                        content: queryPrefix.content,
+                        itinerary: queryPrefix.itinerary,
+                        link: queryPrefix.link,
+                        price: queryPrefix.price,
+                        lat: queryPrefix.lat,
+                        lon: queryPrefix.lon,
+                        services: queryPrefix.services.data,
+                        image: queryPrefix.thumbnail.data,
+                        postImage: queryPrefix.thumbnail.data.attributes.url,
+                        category: queryPrefix.category.data.attributes.name,
+                        region: queryPrefix.region.data.attributes.name,
+                    });
+                }
+                dispatch({
+                    type: GET_SIMILAR_POSTS,
+                    similarPosts: fetchedSimilarPosts,
                 });
             })
             .catch(error => {
@@ -94,6 +134,7 @@ export const getCategoryPosts = category => {
                         lon: queryPrefix.lon,
                         services: queryPrefix.services.data,
                         image: queryPrefix.thumbnail.data,
+                        postImage: queryPrefix.thumbnail.data.attributes.url,
                         category: queryPrefix.category.data.attributes.name,
                         region: queryPrefix.region.data.attributes.name,
                     });

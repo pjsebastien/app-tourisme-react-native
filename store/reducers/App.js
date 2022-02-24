@@ -3,11 +3,13 @@ import {
     GET_CATEGORIES,
     GET_FEATURED_POSTS,
     GET_CATEGORY_POSTS,
+    GET_SIMILAR_POSTS,
 } from '../actions/App';
 
 const initialState = {
     posts: [],
     featuredPosts: [],
+    similarPosts: [],
     categoryPosts: [],
     categories: [],
 };
@@ -25,6 +27,12 @@ export default (state = initialState, action) => {
             return {
                 ...state,
                 featuredPosts: fetchedFeaturedPosts,
+            };
+        case GET_SIMILAR_POSTS:
+            const fetchedSimilarPosts = [...action.similarPosts];
+            return {
+                ...state,
+                similarPosts: fetchedSimilarPosts,
             };
         case GET_CATEGORY_POSTS:
             const fetchedCategoryPosts = [...action.categoryPosts];
