@@ -1,5 +1,5 @@
 //Libraries
-import { SafeAreaView, ScrollView, StyleSheet, View } from 'react-native';
+import { FlatList, SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native';
 import React, { useEffect } from 'react';
 import Colors from '../constants/Colors';
 import GoBackButton from '../components/GoBackButton';
@@ -31,20 +31,27 @@ const Posts = props => {
                         marginBottom: 5,
                     }}
                 />
-                <ScrollView showsVerticalScrollIndicator={false}>
-                    {posts.map(post => {
+                <FlatList
+                    showsVerticalScrollIndicator={false}
+                    data={posts}
+                    renderItem={({ item }) => {
                         return (
                             <PostCard
-                                key={post.id}
-                                urlImage={post.image.attributes.formats.thumbnail.url}
-                                title={post.title}
-                                category={post.category}
-                                region={post.region}
-                                onPress={() => fetchSinglePost(post)}
+                                key={item.id}
+                                urlImage={item.image.attributes.formats.thumbnail.url}
+                                title={item.title}
+                                category={item.category}
+                                region={item.region}
+                                onPress={() => fetchSinglePost(item)}
                             />
                         );
-                    })}
-                </ScrollView>
+                    }}
+                    // onEndReached={fetchMorePosts}
+                    // onEndReachedThreshold={0}
+                    ListFooterComponent={() => {
+                        return <Text style={styles.reachToEnd}>Fin des spots</Text>;
+                    }}
+                />
             </SafeAreaView>
         </View>
     );
@@ -57,5 +64,11 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: Colors.backGroundColor,
         paddingHorizontal: 20,
+    },
+    reachToEnd: {
+        fontWeight: 'bold',
+        color: '#383838',
+        textAlign: 'center',
+        paddingVertical: 20,
     },
 });

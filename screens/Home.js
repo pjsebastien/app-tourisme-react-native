@@ -59,7 +59,7 @@ const Home = props => {
                         <View style={styles.heroTexts}>
                             <Text style={styles.heroProjectName}>Bivouac 974</Text>
                             <Text style={styles.heroText}>
-                                Découvrez les spots de campings et de bivouac à La Réunion
+                                Découvrez les spots de camping et de bivouac à La Réunion
                                 et ou les trouver sur une carte
                             </Text>
                         </View>

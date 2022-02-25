@@ -80,7 +80,7 @@ const AppTabNavigator = () => {
             <TabNavigator.Screen
                 name="tabPosts"
                 component={PostsStackNavigator}
-                options={{ title: 'Lieux', headerShown: false }}
+                options={{ title: 'Tous les spots', headerShown: false }}
             />
             <TabNavigator.Screen
                 name="tabMap"
@@ -90,7 +90,7 @@ const AppTabNavigator = () => {
             <TabNavigator.Screen
                 name="tabSearch"
                 component={SearchPostsScreen}
-                options={{ title: 'Rechercher', headerShown: false }}
+                options={{ title: 'Recherche avancée', headerShown: false }}
             />
         </TabNavigator.Navigator>
     );
