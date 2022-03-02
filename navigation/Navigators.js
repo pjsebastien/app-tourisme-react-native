@@ -15,6 +15,8 @@ import PostsScreen from '../screens/Posts';
 import SearchPostsScreen from '../screens/SearchPosts';
 import AboutScreen from '../screens/About.js';
 import CategoryPosts from '../screens/CategoryPosts';
+import FilteredPosts from '../screens/FilteredPosts';
+import FilteredMap from '../screens/FilteredMap';
 
 //AppModalsNavigator
 const ModalsNavigator = createStackNavigator();
@@ -40,6 +42,16 @@ export const AppModalsNavigator = () => {
             <ModalsNavigator.Screen
                 name="categoryPosts"
                 component={CategoryPosts}
+                options={{ headerShown: false }}
+            />
+            <ModalsNavigator.Screen
+                name="filteredPosts"
+                component={FilteredPosts}
+                options={{ headerShown: false }}
+            />
+            <ModalsNavigator.Screen
+                name="filteredMap"
+                component={FilteredMap}
                 options={{ headerShown: false }}
             />
         </ModalsNavigator.Navigator>

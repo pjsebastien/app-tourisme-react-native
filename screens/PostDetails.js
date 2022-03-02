@@ -89,7 +89,18 @@ const PostsDetails = ({ navigation, route }) => {
                             <Text style={styles.itineraryText}>itinéraire : </Text>
                             <Text>{post.itinerary}</Text>
                             <View style={styles.itineraryButtons}>
-                                <Text style={styles.buttonMap}>Voir sur la carte</Text>
+                                <TouchableOpacity
+                                    onPress={() =>
+                                        navigation.navigate('map', {
+                                            selectedPost: post,
+                                        })
+                                    }
+                                    activeOpacity={0.7}
+                                >
+                                    <Text style={styles.buttonMap}>
+                                        Voir sur la carte
+                                    </Text>
+                                </TouchableOpacity>
                                 <TouchableOpacity onPress={openGps} activeOpacity={0.7}>
                                     <Text style={styles.buttonMap}>Google maps</Text>
                                 </TouchableOpacity>

@@ -1,5 +1,5 @@
 //Libraries
-import { Dimensions, SafeAreaView, ScrollView, StyleSheet, View } from 'react-native';
+import { SafeAreaView, ScrollView, StyleSheet, View } from 'react-native';
 import React, { useEffect } from 'react';
 import Colors from '../constants/Colors';
 import GoBackButton from '../components/GoBackButton';

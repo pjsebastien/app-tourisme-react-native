@@ -1,36 +1,23 @@
 //Libraries
-import {
-    SafeAreaView,
-    ScrollView,
-    StyleSheet,
-    Text,
-    TextInput,
-    View,
-} from 'react-native';
-import React, { useEffect, useState } from 'react';
+import { SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native';
+import React, { useEffect } from 'react';
 import Colors from '../constants/Colors';
+import GoBackButton from '../components/GoBackButton';
+import PostCard from '../components/PostCard';
 
 //Redux
 import { useDispatch, useSelector } from 'react-redux';
 import * as appActions from '../store/actions/App';
 
-//Components
-import GoBackButton from '../components/GoBackButton';
-import PostCard from '../components/PostCard';
-import FilterButton from '../components/FilterButton';
-
-const SearchPosts = props => {
-    const [query, setQuery] = useState('');
-    const searchedPosts = useSelector(state => state.searchedPosts);
-
+const FilteredPosts = props => {
+    const posts = useSelector(state => state.filteredPosts);
     const dispatch = useDispatch();
-    useEffect(() => {
-        dispatch(appActions.getPosts());
-    }, []);
 
-    const handleOnSubmit = () => {
-        dispatch(appActions.getSearchedPosts(query));
-    };
+    let query = props.route.params.customQuery;
+
+    useEffect(() => {
+        dispatch(appActions.getFilteredPosts(query));
+    }, []);
 
     const fetchSinglePost = post => {
         props.navigation.navigate('postDetails', {
@@ -43,23 +30,20 @@ const SearchPosts = props => {
             <SafeAreaView style={{ flex: 1 }}>
                 <GoBackButton
                     onPress={() => props.navigation.goBack()}
-                    title="Recherche avancée"
-                    rightButton={
-                        <FilterButton props={props} destination={'filteredPosts'} />
+                    title={
+                        posts.length > 0
+                            ? posts.length + ' résultat(s)'
+                            : 'Recherche avancée'
                     }
-                />
-                <TextInput
-                    value={query}
-                    onChangeText={text => setQuery(text)}
-                    placeholder="Rechercher..."
-                    style={styles.searchInput}
-                    onSubmitEditing={() => handleOnSubmit()}
+                    customContainerStyle={{
+                        marginBottom: 5,
+                    }}
                 />
                 <ScrollView showsVerticalScrollIndicator={false}>
-                    {!searchedPosts.length ? (
+                    {!posts.length ? (
                         <Text style={styles.notFound}>Aucun résultat</Text>
                     ) : (
-                        searchedPosts.map(post => {
+                        posts.map(post => {
                             return (
                                 <PostCard
                                     key={post.id}
@@ -78,21 +62,13 @@ const SearchPosts = props => {
     );
 };
 
-export default SearchPosts;
+export default FilteredPosts;
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: Colors.backGroundColor,
         paddingHorizontal: 20,
-    },
-    searchInput: {
-        borderWidth: 2,
-        borderColor: Colors.primaryGreenFaded,
-        borderRadius: 5,
-        padding: 5,
-        fontSize: 16,
-        marginTop: 15,
     },
     notFound: {
         fontWeight: 'bold',

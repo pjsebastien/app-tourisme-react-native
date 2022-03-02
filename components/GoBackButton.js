@@ -3,26 +3,29 @@ import React from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Colors from '../constants/Colors';
 
-const GoBackButton = ({ onPress, title, customContainerStyle }) => {
+const GoBackButton = ({
+    onPress,
+    title,
+    customContainerStyle,
+    customButtonStyle,
+    rightButton,
+}) => {
     return (
         <View style={styles.containerBackButton}>
             <TouchableOpacity
                 activeOpacity={0.8}
                 onPress={onPress}
                 style={{
-                    backgroundColor: Colors.primaryGreen,
-                    borderRadius: 25,
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    height: 40,
-                    width: 40,
                     ...customContainerStyle,
+                    ...styles.buttonBack,
                 }}
             >
                 <Ionicons name={'arrow-back'} size={23} color="white" />
             </TouchableOpacity>
             <Text style={styles.textBackButton}>{title}</Text>
-            <TouchableOpacity style={styles.invisible}></TouchableOpacity>
+            <View style={{ ...customButtonStyle, ...styles.invisible }}>
+                {rightButton}
+            </View>
         </View>
     );
 };
@@ -36,6 +39,14 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'space-between',
     },
+    buttonBack: {
+        backgroundColor: Colors.primaryGreen,
+        borderRadius: 25,
+        alignItems: 'center',
+        justifyContent: 'center',
+        height: 40,
+        width: 40,
+    },
     textBackButton: {
         fontSize: 18,
         fontWeight: 'bold',
@@ -44,5 +55,8 @@ const styles = StyleSheet.create({
     invisible: {
         height: 40,
         width: 40,
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderRadius: 25,
     },
 });

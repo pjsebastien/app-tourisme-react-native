@@ -1,12 +1,9 @@
-//Libraries
 import { Dimensions, SafeAreaView, StyleSheet, View } from 'react-native';
 import React from 'react';
 import { Marker } from 'react-native-maps';
 import MapView from 'react-native-map-clustering';
 import Colors from '../constants/Colors';
 import GoBackButton from '../components/GoBackButton';
-import * as Location from 'expo-location';
-import { useFocusEffect } from '@react-navigation/native';
 
 //Redux
 import { useDispatch, useSelector } from 'react-redux';
@@ -14,50 +11,18 @@ import * as appActions from '../store/actions/App';
 import { useEffect } from 'react';
 import { useState } from 'react';
 import PostCard from '../components/PostCard';
-import FilterButton from '../components/FilterButton';
+import HomeButton from '../components/HomeButton';
 
 const Map = props => {
-    let postsFetched = useSelector(state => state.posts);
     const [postModal, setPostModal] = useState();
-    const [postSingle, setPostSingle] = useState(null);
-    const [posts, setPosts] = useState([]);
-    const [location, setLocation] = useState(null);
+    const posts = useSelector(state => state.filteredPosts);
     const dispatch = useDispatch();
 
+    let query = props.route.params.customQuery;
+
     useEffect(() => {
-        (async () => {
-            let { status } = await Location.requestForegroundPermissionsAsync();
-            if (status !== 'granted') {
-                setErrorMsg('Permission to access location was denied');
-                return;
-            }
-
-            let location = await Location.getCurrentPositionAsync();
-            setLocation(location);
-        })();
+        dispatch(appActions.getFilteredPosts(query));
     }, []);
-
-    useFocusEffect(
-        React.useCallback(() => {
-            // Do something when the screen is focused
-            if (props.route.params) {
-                let { selectedPost } = props.route.params;
-                setPostSingle(selectedPost);
-                console.log(props.route.params);
-            }
-
-            dispatch(appActions.getPosts());
-            setPosts(postsFetched);
-
-            return () => {
-                // Do something when the screen is unfocused
-                // Useful for cleanup functions
-                setPostModal(null);
-                setPostSingle(null);
-                setPosts([]);
-            };
-        }, []),
-    );
 
     const fetchSinglePost = post => {
         props.navigation.navigate('postDetails', {
@@ -81,17 +46,23 @@ const Map = props => {
             <SafeAreaView style={{ flex: 1 }}>
                 <View style={styles.headerButtons}>
                     <GoBackButton
-                        customContainerStyle={{
-                            flexDirection: 'row',
-                            justifyContent: 'space-between',
-                        }}
                         onPress={() => props.navigation.goBack()}
+                        title={`${posts.length}  ${
+                            posts.length > 1 ? ' Résultats' : 'Résultat'
+                        }`}
                         rightButton={
-                            <FilterButton destination={'filteredMap'} props={props} />
+                            <View
+                                style={{
+                                    marginTop: Platform.OS === 'android' ? -50 : -30,
+                                }}
+                            >
+                                <HomeButton
+                                    onPress={() => props.navigation.push('app')}
+                                />
+                            </View>
                         }
                     />
                 </View>
-
                 <MapView
                     initialRegion={{
                         latitude: -21.158141,
@@ -105,30 +76,19 @@ const Map = props => {
                     showsMyLocationButton={false}
                     style={styles.map}
                 >
-                    {postSingle !== null ? (
-                        <Marker
-                            coordinate={{
-                                latitude: Number(postSingle.lat),
-                                longitude: Number(postSingle.lon),
-                            }}
-                            onPress={() => onPressMarkerHandle(postSingle)}
-                            image={getImage(postSingle.category)}
-                        ></Marker>
-                    ) : (
-                        posts.map(post => {
-                            return post.lat !== null ? (
-                                <Marker
-                                    key={post.id}
-                                    coordinate={{
-                                        latitude: Number(post.lat),
-                                        longitude: Number(post.lon),
-                                    }}
-                                    onPress={() => onPressMarkerHandle(post)}
-                                    image={getImage(post.category)}
-                                ></Marker>
-                            ) : null;
-                        })
-                    )}
+                    {posts.map(post => {
+                        return post.lat !== null ? (
+                            <Marker
+                                key={post.id}
+                                coordinate={{
+                                    latitude: Number(post.lat),
+                                    longitude: Number(post.lon),
+                                }}
+                                onPress={() => onPressMarkerHandle(post)}
+                                image={getImage(post.category)}
+                            ></Marker>
+                        ) : null;
+                    })}
                 </MapView>
                 {postModal ? (
                     <View

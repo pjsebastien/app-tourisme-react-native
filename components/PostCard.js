@@ -42,6 +42,7 @@ const styles = StyleSheet.create({
         height: 120,
         borderRadius: 15,
         flexDirection: 'row',
+        width: Dimensions.get('window').width - 40,
     },
     cardImage: {
         height: '100%',
