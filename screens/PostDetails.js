@@ -19,6 +19,8 @@ import { MarkdownView } from 'react-native-markdown-view';
 //redux
 import { useDispatch, useSelector } from 'react-redux';
 import * as appActions from '../store/actions/App';
+
+//Components
 import PostCard from '../components/PostCard';
 import HomeButton from '../components/HomeButton';
 
@@ -26,6 +28,7 @@ const PostsDetails = ({ navigation, route }) => {
     //State
     const [post, setPost] = useState({});
     const [services, setServices] = useState([]);
+    console.log(post);
 
     //Variables
     const dispatch = useDispatch();
@@ -46,6 +49,18 @@ const PostsDetails = ({ navigation, route }) => {
         let url = `https://www.google.com/maps/search/?api=1&query=${post.lat},${post.lon}`;
         // let url = scheme + `${post.lat},${post.lon}`;
         Linking.openURL(url);
+    };
+    const openWebSite = () => {
+        let url = post.link;
+        Linking.openURL(url);
+    };
+    const openMail = () => {
+        Linking.openURL(
+            `mailto:pj.sebastien@gmail.com?subject=Rectification ou modification du spot : ${post.title} &body=Votre message ici...`,
+        );
+    };
+    const openFormSpot = () => {
+        Linking.openURL(`https://forms.gle/a2fuD1uYBvtggeKa7`);
     };
 
     return (
@@ -87,7 +102,15 @@ const PostsDetails = ({ navigation, route }) => {
                         </MarkdownView>
                         <View style={styles.itineraryContainer}>
                             <Text style={styles.itineraryText}>itinéraire : </Text>
-                            <Text>{post.itinerary}</Text>
+
+                            <Text style={{ fontStyle: 'italic' }}>
+                                {post.itinerary
+                                    ? post.itinerary
+                                    : `Aucune information disponible pour le moment. Cliquez
+                                    sur l'un des boutons ci dessous pour obtenir les
+                                    coordonnées GPS.`}
+                            </Text>
+
                             <View style={styles.itineraryButtons}>
                                 <TouchableOpacity
                                     onPress={() =>
@@ -106,6 +129,54 @@ const PostsDetails = ({ navigation, route }) => {
                                 </TouchableOpacity>
                             </View>
                         </View>
+                        {post.adress ? (
+                            <View style={styles.itineraryContainer}>
+                                <Text style={styles.itineraryText}>contact : </Text>
+                                <Text>{post.adress}</Text>
+                                <View style={styles.itineraryButtons}>
+                                    {post.phone ? (
+                                        <Text style={styles.buttonPhone}>
+                                            {post.phone}
+                                        </Text>
+                                    ) : null}
+                                    {post.link ? (
+                                        <TouchableOpacity
+                                            onPress={openWebSite}
+                                            activeOpacity={0.7}
+                                        >
+                                            <Text style={styles.buttonMap}>Site web</Text>
+                                        </TouchableOpacity>
+                                    ) : null}
+                                </View>
+                            </View>
+                        ) : null}
+                        <View style={styles.itineraryContainer}>
+                            <Text style={{ fontStyle: 'italic' }}>
+                                ( Les informations fournies dans cette fiche sont à titre
+                                indicatives, elles peuvent différer de la réalité et ne
+                                pas être à jour, si vous souhaitez apporter une
+                                rectification ou une modification, vous pouvez me
+                                contacter par mail en cliquant ci dessous. Si vous
+                                souhaitez contribuer en proposant un nouveau spot, cliquez
+                                sur "proposer un spot" ){' '}
+                            </Text>
+                            <View style={styles.itineraryButtons}>
+                                <TouchableOpacity
+                                    onPress={openFormSpot}
+                                    activeOpacity={0.7}
+                                >
+                                    <Text style={styles.buttonMap}>Proposer un spot</Text>
+                                </TouchableOpacity>
+                                <TouchableOpacity onPress={openMail} activeOpacity={0.7}>
+                                    <Text style={styles.buttonMap}>Envoyer un mail</Text>
+                                </TouchableOpacity>
+                            </View>
+                        </View>
+                        {post.author ? (
+                            <Text style={{ fontStyle: 'italic' }}>
+                                * Contributeur du spot : {post.author}.
+                            </Text>
+                        ) : null}
                     </View>
                     {newSimilarPosts.length > 0 ? (
                         <View>
@@ -183,6 +254,7 @@ const styles = StyleSheet.create({
         padding: 15,
         backgroundColor: '#EAEAEA',
         borderRadius: 10,
+        marginBottom: 25,
     },
     itineraryText: {
         fontSize: 14,
@@ -228,6 +300,17 @@ const styles = StyleSheet.create({
     },
     buttonMap: {
         backgroundColor: Colors.primaryGreenDark,
+        paddingVertical: 6,
+        paddingHorizontal: 10,
+        borderRadius: 5,
+        fontSize: 14,
+        color: Colors.textColorLight,
+        marginLeft: 10,
+        marginBottom: 5,
+        textAlign: 'center',
+    },
+    buttonPhone: {
+        backgroundColor: Colors.primaryGreen,
         paddingVertical: 6,
         paddingHorizontal: 10,
         borderRadius: 5,

@@ -57,10 +57,25 @@ const Home = props => {
                             />
                         </TouchableOpacity>
                         <View style={styles.heroTexts}>
-                            <Text style={styles.heroProjectName}>Bivouac 974</Text>
+                            <View style={{ flexDirection: 'row' }}>
+                                <Ionicons
+                                    name="star-half-outline"
+                                    size={26}
+                                    color={Colors.primaryGreenDark}
+                                />
+                                <Text style={styles.heroProjectName}>
+                                    Sous les étoiles
+                                </Text>
+                                <Ionicons
+                                    name="star-half-outline"
+                                    size={26}
+                                    color={Colors.primaryGreenDark}
+                                />
+                            </View>
+
                             <Text style={styles.heroText}>
-                                Découvrez les spots de camping et de bivouac à La Réunion
-                                et ou les trouver sur une carte
+                                Découvrez les spots pour dormir en pleine nature à La
+                                Réunion et ou les trouver sur une carte
                             </Text>
                         </View>
                     </ImageBackground>
@@ -199,19 +214,20 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
     },
     heroTexts: {
-        marginHorizontal: 25,
+        marginHorizontal: 15,
         marginBottom: 50,
     },
     heroProjectName: {
         fontSize: 32,
-        textTransform: 'uppercase',
+        textTransform: 'capitalize',
         color: Colors.textColorLight,
+        marginHorizontal: 8,
+        marginBottom: 10,
         fontWeight: 'bold',
     },
     heroText: {
-        fontSize: 18,
+        fontSize: 16,
         color: Colors.textColorLight,
-        fontWeight: 'bold',
     },
     mapButton: {
         alignItems: 'center',

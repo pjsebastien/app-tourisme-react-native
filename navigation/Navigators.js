@@ -69,7 +69,7 @@ const AppTabNavigator = () => {
                     let iconName;
                     size = 24;
                     if (route.name == 'tabHome') {
-                        iconName = focused ? 'aperture' : 'aperture-outline';
+                        iconName = focused ? 'star-half-outline' : 'star-half-outline';
                     } else if (route.name == 'tabPosts') {
                         iconName = focused ? 'leaf' : 'leaf-outline';
                     } else if (route.name == 'tabMap') {
