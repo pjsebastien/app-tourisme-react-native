@@ -1,6 +1,5 @@
 //Libraries
 import {
-    Dimensions,
     FlatList,
     ImageBackground,
     Linking,
@@ -8,7 +7,6 @@ import {
     ScrollView,
     StyleSheet,
     Text,
-    TouchableHighlight,
     TouchableOpacity,
     View,
 } from 'react-native';
@@ -16,7 +14,7 @@ import React, { useState } from 'react';
 import Colors from '../constants/Colors';
 import GoBackButton from '../components/GoBackButton';
 import { useEffect } from 'react';
-// import Markdown from 'react-native-markdown-display';
+import { MarkdownView } from 'react-native-markdown-view';
 
 //redux
 import { useDispatch, useSelector } from 'react-redux';
@@ -82,9 +80,11 @@ const PostsDetails = ({ navigation, route }) => {
                             })}
                         </View>
                         <View style={styles.priceContainer}>
-                            <Text style={styles.buttonCat}>gratuit</Text>
+                            <Text style={styles.buttonCat}>{post.price}</Text>
                         </View>
-                        <Text style={{ marginVertical: 25 }}>{post.content}</Text>
+                        <MarkdownView style={{ marginVertical: 25 }}>
+                            {post.content}
+                        </MarkdownView>
                         <View style={styles.itineraryContainer}>
                             <Text style={styles.itineraryText}>itinéraire : </Text>
                             <Text>{post.itinerary}</Text>
