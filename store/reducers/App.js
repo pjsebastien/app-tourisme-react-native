@@ -8,6 +8,11 @@ import {
     GET_SIMILAR_POSTS,
     GET_SEARCHED_POSTS,
     GET_FILTERED_POSTS,
+    GET_ABOUT,
+    GET_ADDPOST,
+    GET_BIVOUAC,
+    GET_CAMPING,
+    GET_PRIVACY,
 } from '../actions/App';
 
 const initialState = {
@@ -20,6 +25,11 @@ const initialState = {
     regions: [],
     services: [],
     filteredPosts: [],
+    about: [],
+    addPost: [],
+    bivouac: [],
+    camping: [],
+    privacy: [],
 };
 
 export default (state = initialState, action) => {
@@ -77,6 +87,36 @@ export default (state = initialState, action) => {
             return {
                 ...state,
                 services: fetchedServices,
+            };
+        case GET_ABOUT:
+            const fetchedAbout = action.about;
+            return {
+                ...state,
+                about: fetchedAbout,
+            };
+        case GET_ADDPOST:
+            const fetchedAddPost = action.addPost;
+            return {
+                ...state,
+                addPost: fetchedAddPost,
+            };
+        case GET_BIVOUAC:
+            const fetchedBivouac = action.bivouac;
+            return {
+                ...state,
+                bivouac: fetchedBivouac,
+            };
+        case GET_CAMPING:
+            const fetchedCamping = action.camping;
+            return {
+                ...state,
+                camping: fetchedCamping,
+            };
+        case GET_PRIVACY:
+            const fetchedPrivacy = action.privacy;
+            return {
+                ...state,
+                privacy: fetchedPrivacy,
             };
         default:
             return state;

@@ -8,6 +8,7 @@ import PostCard from '../components/PostCard';
 //Redux
 import { useDispatch, useSelector } from 'react-redux';
 import * as appActions from '../store/actions/App';
+import { useState } from 'react';
 
 const Posts = props => {
     let posts = useSelector(state => state.posts);
@@ -16,11 +17,18 @@ const Posts = props => {
     useEffect(() => {
         dispatch(appActions.getPosts());
     }, []);
+
     const fetchSinglePost = post => {
         props.navigation.navigate('postDetails', {
             selectedPost: post,
         });
     };
+    // const fetchMorePosts = () => {
+    //     start += 1;
+    //     dispatch(appActions.getPosts(start, limit));
+    //     setLatestPosts([...latestPosts, ...posts]);
+    // };
+
     return (
         <View style={styles.container}>
             <SafeAreaView style={{ flex: 1 }}>

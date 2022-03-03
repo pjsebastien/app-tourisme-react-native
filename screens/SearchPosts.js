@@ -51,13 +51,19 @@ const SearchPosts = props => {
                 <TextInput
                     value={query}
                     onChangeText={text => setQuery(text)}
-                    placeholder="Rechercher..."
+                    placeholder="Entrez votre recherche..."
                     style={styles.searchInput}
                     onSubmitEditing={() => handleOnSubmit()}
                 />
                 <ScrollView showsVerticalScrollIndicator={false}>
                     {!searchedPosts.length ? (
-                        <Text style={styles.notFound}>Aucun résultat</Text>
+                        <>
+                            <Text style={styles.notFound}>Aucun résultat</Text>
+                            <Text style={styles.notFound}>
+                                Pour affiner votre recherche cliquez sur le bouton en haut
+                                à droite.
+                            </Text>
+                        </>
                     ) : (
                         searchedPosts.map(post => {
                             return (

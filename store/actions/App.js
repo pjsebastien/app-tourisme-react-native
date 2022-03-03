@@ -9,11 +9,16 @@ export const GET_CATEGORY_POSTS = 'GET_CATEGORY_POSTS';
 export const GET_SIMILAR_POSTS = 'GET_SIMILAR_POSTS';
 export const GET_SEARCHED_POSTS = 'GET_SEARCHED_POSTS';
 export const GET_FILTERED_POSTS = 'GET_FILTERED_POSTS';
+export const GET_ABOUT = 'GET_ABOUT';
+export const GET_ADDPOST = 'GET_ADDPOST';
+export const GET_BIVOUAC = 'GET_BIVOUAC';
+export const GET_CAMPING = 'GET_CAMPING';
+export const GET_PRIVACY = 'GET_PRIVACY';
 
 export const getPosts = () => {
     return dispatch => {
         axios
-            .get(`/posts?populate=*`)
+            .get(`/posts?populate=*&sort=createdAt%3Adesc`)
             .then(response => {
                 const fetchedPosts = [];
                 for (let key in response.data.data) {
@@ -47,7 +52,7 @@ export const getPosts = () => {
 export const getFeaturedPosts = () => {
     return dispatch => {
         axios
-            .get(`/posts?filters[isFeatured][$eq]=true&populate=*`)
+            .get(`/posts?filters[isFeatured][$eq]=true&populate=*&sort=createdAt%3Adesc`)
             .then(response => {
                 const fetchedFeaturedPosts = [];
                 for (let key in response.data.data) {
@@ -126,7 +131,6 @@ export const getSearchedPosts = query => {
         axios
             .get(`/posts?populate=*&[filters][title][$containsi]=${query}`)
             .then(response => {
-                // console.log(response.data.data.length);
                 const fetchedSearchedPosts = [];
 
                 for (let key in response.data.data) {
@@ -165,7 +169,6 @@ export const getFilteredPosts = query => {
         axios
             .get(`/posts?populate=*&${query}`)
             .then(response => {
-                console.log(response.data.data.length);
                 const fetchedFilteredPosts = [];
 
                 for (let key in response.data.data) {
@@ -203,7 +206,9 @@ export const getFilteredPosts = query => {
 export const getCategoryPosts = category => {
     return dispatch => {
         axios
-            .get(`/posts?populate=*&[filters][category][name][$eq]=${category}`)
+            .get(
+                `/posts?populate=*&[filters][category][name][$eq]=${category}&sort=createdAt%3Adesc`,
+            )
             .then(response => {
                 const fetchedCategoryPosts = [];
                 for (let key in response.data.data) {
@@ -264,7 +269,6 @@ export const getRegions = () => {
             .get(`/regions/`)
             .then(response => {
                 const fetchedRegions = [];
-                // console.log(response.data.data);
                 for (let key in response.data.data) {
                     const queryPrefix = response.data.data[key].attributes;
                     fetchedRegions.push({
@@ -285,7 +289,6 @@ export const getServices = () => {
             .get(`/services/`)
             .then(response => {
                 const fetchedServices = [];
-                // console.log(response.data.data);
                 for (let key in response.data.data) {
                     const queryPrefix = response.data.data[key].attributes;
                     fetchedServices.push({
@@ -294,6 +297,86 @@ export const getServices = () => {
                     });
                 }
                 dispatch({ type: GET_SERVICES, services: fetchedServices });
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    };
+};
+export const getAbout = () => {
+    return dispatch => {
+        axios
+            .get(`/about/`)
+            .then(response => {
+                let fetchedAbout = {
+                    content: response.data.data.attributes.content,
+                };
+
+                dispatch({ type: GET_ABOUT, about: fetchedAbout });
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    };
+};
+export const getAddPost = () => {
+    return dispatch => {
+        axios
+            .get(`/addpost`)
+            .then(response => {
+                let fetchedAddPost = {
+                    content: response.data.data.attributes.content,
+                };
+
+                dispatch({ type: GET_ADDPOST, addPost: fetchedAddPost });
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    };
+};
+export const getBivouac = () => {
+    return dispatch => {
+        axios
+            .get(`/bivouac`)
+            .then(response => {
+                let fetchedBivouac = {
+                    content: response.data.data.attributes.content,
+                };
+
+                dispatch({ type: GET_BIVOUAC, bivouac: fetchedBivouac });
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    };
+};
+export const getCamping = () => {
+    return dispatch => {
+        axios
+            .get(`/camping`)
+            .then(response => {
+                let fetchedCamping = {
+                    content: response.data.data.attributes.content,
+                };
+
+                dispatch({ type: GET_CAMPING, camping: fetchedCamping });
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    };
+};
+export const getPrivacy = () => {
+    return dispatch => {
+        axios
+            .get(`/privacy`)
+            .then(response => {
+                let fetchedPrivacy = {
+                    content: response.data.data.attributes.content,
+                };
+
+                dispatch({ type: GET_PRIVACY, privacy: fetchedPrivacy });
             })
             .catch(error => {
                 console.log(error);

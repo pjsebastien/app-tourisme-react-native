@@ -43,7 +43,6 @@ const Map = props => {
             if (props.route.params) {
                 let { selectedPost } = props.route.params;
                 setPostSingle(selectedPost);
-                console.log(props.route.params);
             }
 
             dispatch(appActions.getPosts());

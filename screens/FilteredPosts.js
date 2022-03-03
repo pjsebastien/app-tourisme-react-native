@@ -32,7 +32,9 @@ const FilteredPosts = props => {
                     onPress={() => props.navigation.goBack()}
                     title={
                         posts.length > 0
-                            ? posts.length + ' résultat(s)'
+                            ? posts.length > 1
+                                ? `${posts.length} Résultats`
+                                : `${posts.length} Résultat`
                             : 'Recherche avancée'
                     }
                     customContainerStyle={{

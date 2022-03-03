@@ -97,9 +97,7 @@ const PostsDetails = ({ navigation, route }) => {
                         <View style={styles.priceContainer}>
                             <Text style={styles.buttonCat}>{post.price}</Text>
                         </View>
-                        <MarkdownView style={{ marginVertical: 25 }}>
-                            {post.content}
-                        </MarkdownView>
+                        <MarkdownView style={markdown}>{post.content}</MarkdownView>
                         <View style={styles.itineraryContainer}>
                             <Text style={styles.itineraryText}>itinéraire : </Text>
 
@@ -320,4 +318,8 @@ const styles = StyleSheet.create({
         marginBottom: 5,
         textAlign: 'center',
     },
+});
+
+const markdown = StyleSheet.create({
+    marginVertical: 25,
 });
